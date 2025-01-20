@@ -1,0 +1,22 @@
+
+                    868 DIRECTORY
+                    =============
+
+    Efforts are underway to resurrect the 868 Directory.
+    
+    If you'd like to be included please send an email to
+                868directory@gmail.com
+    and specify exactly what you want included. Be sure 
+    to mention if you do not wish your email address to
+    be published. 
+    Available fields are first name, middle name, last name,
+    suffix, phone, address, town, state, postal_code, country
+    and email. At least one name is mandatory. All other fields
+    are optional. Provide as many phone numbers as you wish.
+    Four digit numbers will be assumed to be "415/868" numbers.
+    Your email address will be included unless you specify
+    otherwise.
+    Bolinas, CA 94924 USA will be assumed for empty town, state,
+    postal_code and country fields.
+
+    We'll keep you posted as things progress.

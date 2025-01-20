@@ -1,0 +1,11 @@
+
+# File: README
+
+Code for maintenance of the 868 Directory data base.
+
+The data (Secret/868.db) itself is excluded
+and backed up either in google drive or in an encryped file.
+
+New entries can be made with the command:
+  .code/data_entry.py
+

@@ -42,21 +42,26 @@ def add2people():
     if gui.yes_no(query, title="Execute?"):
         sql_code.fetch(query, from_file=False,
                   commit=True, verbose=False)
-    if gui.yes_no("Activate person just entered?",
+    if gui.yes_no(
+            "Make entry into person_status table?",
                                 title="Yes or No"):
         personID, first, last = sql_code.fetch(
             """SELECT id, first, last FROM people
             ORDER BY id DESC LIMIT 1;""",   # last entry
             from_file=False)[0]
 #       _ = input(f"{personID:>3}  {first}  {last}")
+
+        keys = "statusID, text".split(", ")
+        query = """SELECT * FROM stati;"""
+        choice = pick(query, keys, "{statusID}: {text}")
+
         query = f""" INSERT INTO person_status
                 (personID, statusID, begin) 
-            VALUES ({personID}, 1, "{helpers.datestamp}");"""
+            VALUES ({personID}, {choice[statusID], "{helpers.datestamp}");"""
         if gui.yes_no(query, title="Execute?"):
             sql_code.fetch(query, from_file=False,
                            commit=True)
-# Still need to make an entry in the person_status table!!
-    pass
+    
 
 if __name__ == "__main__":
     add2people()

@@ -7,6 +7,8 @@ Collecting what's useful in Git/Sql/Code/textual.py and refining it
 """
 
 import PySimpleGUI as sg
+import helpers
+import sql_code
 
 font_index = 2  # adjust for readability
 
@@ -74,14 +76,79 @@ def change_mapping(mapping,
         return
     return new_dict
 
-## Utility Functions:
 
-def show_dict(mapping):
-    for key, value in mapping.items():
-        print(f"{key}: {value}", end = '; ')
-    print()
+def pick(query, keys, format_string,
+            header="CHOOSE ONE",
+            subheader="Choices are..."):
+    """
+    Uses <query> to collect a list of dicts and presents
+    user with a corresponding list of choices, each a
+    <format_string> formatted using the query results.
+    Length of each query result line must == len(keys)
+    Returns chosen dict or None (if none available or
+    user aborts/cancels.)
+    """
+    res = sql_code.fetch(query, from_file=False)
+    l = len(res)
+    if not l:
+        print("Empty query result...")
+        return
+    l = len(res[0])
+    if l != len(keys):
+        print("length mismatch: keys and query result")
+        return
+    mappings = []
+    for line in res:
+        mappings.append({key: value for key, value in zip(
+            keys, line)})
+    if not mappings:
+        print("No records provided ==> exit")
+        return
+    options = [format_string.format(**rec)
+            for rec in mappings]
+    listing = zip(range(len(options)), options)
+    for_display = [f"{item[0]:>2}: {item[1]}"
+                for item in listing]
+    layout=[[sg.Text(subheader,size=(50,1),
+#           font='Lucida',justification='left'
+            )],
+            [sg.Listbox(values=for_display,
+                select_mode='extended',
+                key='CHOICE', size=(50,len(mappings)))],
+            [sg.Button('SELECT',
+#               font=('Times New Roman',12)
+                ),
+            sg.Button('CANCEL',
+#                   font=('Times New Roman',12)
+                    )
+            ]]
+    win =sg.Window(header,layout)
+    e, v = win.read()
+    win.close()
+    if not v["CHOICE"]:
+        return
+    chosen_item = v['CHOICE'][0].strip().split()[0][:-1]
+    if (e != "SELECT") or not v['CHOICE']:
+        print("pick returning None")
+        return
+    else:
+#       print("\n".join(
+#           ["code.textual.pick:",
+#           "  line chosen...",
+#           f"    {repr(v['CHOICE'])}",
+#           "  record returned:",
+#           f"    {repr(mappings[int(chosen_item)])}"],
+#           ))
+        return mappings[int(chosen_item)]
 
 ## Testing Functions:
+def ck_pick():
+#   print("Running main")
+    keys = "statusID, text".split(", ")
+    query = """SELECT * FROM stati;"""
+    res = pick(query, keys, "{statusID}: {text}")
+    print(res)
+
 def ck_change_mapping():
     d = dict(
             first="Alex",
@@ -90,7 +157,7 @@ def ck_change_mapping():
             )
     new_d = change_mapping(d)
     if isinstance(new_d, dict):
-        show_dict(new_d)
+        helpers.show_dict(new_d)
     else:
         print("User aborted.")
 
@@ -104,5 +171,6 @@ if __name__ == "__main__":
 #   print(yes_no("Do you believe?"))
 #   print(yes_no("Do you believe?", font=('Helvetica', 30)))
 #   ck_change_mapping()
-    ck_blank_entries_removed()
+#   ck_blank_entries_removed()
+    ck_pick()
 

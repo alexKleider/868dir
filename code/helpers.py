@@ -9,6 +9,13 @@ import datetime
 today = datetime.datetime.today()
 datestamp = today.strftime("%Y-%m-%d")
 
+## Utility Functions:
+
+def show_dict(mapping):
+    for key, value in mapping.items():
+        print(f"{key}: {value}", end = '; ')
+    print()
+
 def shortened_dict(mapping):
     """
     Returns the mapping with only keys that have values.

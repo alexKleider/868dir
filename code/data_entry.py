@@ -11,7 +11,18 @@ people_keys = ("id, entry_date, first, mi, last, suffix, phone, " +
 people_keys = people_keys.split(', ')
 
 def insert_into(table_name, mapping):
-    pass
+    keys = mapping.keys()
+    keys = ", ".join(keys)
+    values = [f'"{value}"' for value in mapping.values()]
+    values = ", ".join(keys)
+    query = f"""
+        INSERT INTO {table_name}
+        ({keys})
+        VALUES
+        ({values})
+        ; """
+    _ = input(query)
+
 
 def add2people():
     mapping = {key:"" for key in people_keys[2:]}
@@ -45,6 +56,7 @@ def add2people():
             sql_code.fetch(query, from_file=False,
                            commit=True)
 # Still need to make an entry in the person_status table!!
+    pass
 
 if __name__ == "__main__":
     add2people()

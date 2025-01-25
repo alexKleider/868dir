@@ -42,6 +42,7 @@ def add2people():
     if gui.yes_no(query, title="Execute?"):
         sql_code.fetch(query, from_file=False,
                   commit=True, verbose=False)
+
     if gui.yes_no(
             "Make entry into person_status table?",
                                 title="Yes or No"):
@@ -53,11 +54,11 @@ def add2people():
 
         keys = "statusID, text".split(", ")
         query = """SELECT * FROM stati;"""
-        choice = pick(query, keys, "{statusID}: {text}")
+        choice = gui.pick(query, keys, "{statusID}: {text}")
 
         query = f""" INSERT INTO person_status
                 (personID, statusID, begin) 
-            VALUES ({personID}, {choice[statusID], "{helpers.datestamp}");"""
+            VALUES ({personID}, {choice["statusID"]}, "{helpers.datestamp}");"""
         if gui.yes_no(query, title="Execute?"):
             sql_code.fetch(query, from_file=False,
                            commit=True)

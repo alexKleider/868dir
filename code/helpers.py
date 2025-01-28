@@ -77,9 +77,7 @@ def get_json(file_name, report=None):
     Provides optional reporting.
     """
     with open(file_name, 'r') as f_obj:
-        add2report(report,
-            f'Reading JSON file "{f_obj.name}".',
-            also_print=True)
+        print(f'Reading JSON file "{f_obj.name}".')
         return json.load(f_obj)
 
 

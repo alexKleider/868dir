@@ -15,24 +15,36 @@ email = {     # email format...
 }
 """
 
+import csv
 import json
 import sql_code
 import helpers
 
+#ids2include = [14, 28, ....)
+
+csv_file_name = "Secret/data.csv"
+json_file_name = "Secret/data.json"
+email_file_name = "Secret/emails.json"
+
 today = helpers.datestamp
 
-query = f"""
-    SELECT P.id, PS.statusID,
+query = f"""  /* also found in sql/venkat.sql */
+    SELECT P.id, S.status,
         P.first, P.mi, P.last, P.suffix, P.phone, P.address,
         P.town, P.state, P.postal_code, P.country, P.email
     FROM people AS P
+    JOIN stati as S
+        ON PS.statusID = S.id
     JOIN person_status AS PS
         ON P.id = PS.personID
         AND PS.begin <= "{today}"
         AND (PS.end = "" OR PS.end > "{today}")
         ;
         """
-keys = ("P.id, PS.statusID, " +
+keys = (
+        "P.id, " + 
+        "PS.status, " +
+#       "PS.statusID, " +
         "P.first, P.mi, P.last, P.suffix, P.phone, P.address, "
         + "P.town, P.state, P.postal_code, P.country, P.email")
 keys = [part.split(".")[1] for part in keys.split(", ")]
@@ -58,6 +70,8 @@ planned for "your" entry are as follows:
 
     Only the last four digits of 415/868 phone numbers will
 be listed.  More than one phone number may be provided.
+Let it be known if you'd like a number to be specified as that
+of a cell/mobile phone.
 
     "Bolinas", "CA", "94924", "USA" will be assumed where
 blank entries occur for town, state, postal_code and country.
@@ -70,17 +84,15 @@ Sincerely,
 """
 
 emails = [ ]
-email_file = "Secret/emails.json"
 
-def emails2file(emails, file_name=email_file):
+def emails2file(emails, file_name=email_file_name):
     if emails:
         helpers.dump2json_file(emails,
-                email_file)
+                file_name)
         n = len(emails)
-        efile = email_file
-        print(f"{n} emails sent to {efile}.")
-        print(f"Emails ({len(holder.emails)} in " +
-            f"number) sent to {email_file}")
+        print(f"{n} emails sent to {file_name}.")
+        print(
+            f"Emails ({n} in number) sent to {email_file}")
     else:
         print("No emails to send.")
 
@@ -91,32 +103,37 @@ def select_status():
     """
     pass
 
-def dump2json_file(data, json_file, verbose=True):
-    """
-    <json_file> if it exists will be overwritten!!
-    """
-    with open(json_file, "w") as json_file_obj:
-        if verbose:
-            print('Dumping (json) data to "{}".'.format(
-                  json_file_obj.name))
-        json.dump(data, json_file_obj)
-
-def t1():
-    _ = input(f'Query: """{query}""" ')
+def create_csv():
     res = sql_code.fetch(query, from_file=False)
-    print(keys)
-    for line in res:
-        print(line)
-    _ = input()
-    print(body.format(name=name, entry=entry))
+    with open("Secret/data.csv", 'w', newline='') as stream:
+        writer = csv.writer(stream)
+        writer.writerow(keys)
+        print(keys)
+        for line in res[1:]:
+            writer.writerow(line)
+            print(line)
 
-def t2():
+def create_json():
+    res = sql_code.fetch(query, from_file=False)
+    jdata = [{key: value for (key, value) in zip(keys, values)} for
+             values in res]
+#   for mapping in jdata:
+#       print(mapping)
+    helpers.dump2json_file(jdata, json_file_name)
+
+
+def mailing():
     yn = input(f"Subject set to <{subject}>. Continue? (y/n) ")
     if yn and yn[0] in "nN":
         return
+    _ = input(query)
     res = sql_code.fetch(query, from_file=False)
     for line in res:
         print(line)
+        personID = line[0]
+        if ids2include and not (personID in ids2include):
+            continue
+            emails.append(e_rec)
         email_address = line[-1]
         name = f"{line[2]} {line[4]}:"
         if int(line[1]) == 3:
@@ -140,7 +157,11 @@ def t2():
         emails.append(e_rec)
     dump2json_file(emails, email_file, verbose=True)
 
-if __name__ == "__main__":
-    t2()
+def main():
+    pass
 
+if __name__ == "__main__":
+#   mailing()
+#   create_csv()
+    create_json()
 

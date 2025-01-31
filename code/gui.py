@@ -141,6 +141,32 @@ def pick(query, keys, format_string,
 #           ))
         return mappings[int(chosen_item)]
 
+def pick_func(carte, font=font):
+    """
+    <carte> is a dict with values that are functions.
+    User is presented with a choice of all the keys
+    and returned in the corresponding function.
+    """
+    options = [key for key in carte.keys()]
+    layout = [
+        [sg.Text("Make a Choice", size=(30,1),)],
+        [sg.Listbox(values=options, select_mode='extended',
+            key='CHOICE', size=(30, len(options)))],
+        [sg.Button('SELECT',), sg.Button('CANCEL'),]
+            ]
+    win = sg.Window("Main Menu", layout, font=font)
+    e, v = win.read()
+    win.close()
+    if e == 'CANCEL' or not v or not v["CHOICE"]:
+        print(
+            "Cancelled or no choice made; aborting main menu")
+        return
+    print(v)
+    key = v['CHOICE'][0]
+    print(key)
+    return carte[key]
+
+
 ## Testing Functions:
 def ck_pick():
 #   print("Running main")

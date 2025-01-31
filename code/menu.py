@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-# File: code/mailing.py
+# File: code/menu.py
+#  was initially called mailing.py
 """
 email = {     # email format...
     'From': sender,       # Mandatory field.
@@ -19,6 +20,8 @@ import csv
 import json
 import sql_code
 import helpers
+import gui
+import reports
 
 #ids2include = [14, 28, ....)
 
@@ -157,11 +160,19 @@ def mailing():
         emails.append(e_rec)
     dump2json_file(emails, email_file, verbose=True)
 
+
 def main():
-    pass
+    carte = dict(
+        mailing= mailing,
+        report= reports.report,
+        csv= create_csv,
+        json= create_json,
+        )
+    gui.pick_func(carte)()
 
 if __name__ == "__main__":
+    main()
 #   mailing()
 #   create_csv()
-    create_json()
+#   create_json()
 

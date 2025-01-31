@@ -45,17 +45,18 @@ query1 = f"""
 def line2dict(iterable, keys):
     return {key: value for key, value in zip(keys, iterable)}
 
-_ = input(query1)
-#res = sql_code.fetch(query, from_file=False)
-#helpers.dump2csv_file(res,
-#            keys=keys,
-#            file_name="active.csv")
-res = sql_code.fetch(query1, from_file=False)
-for line in res:
-    d = line2dict(line, keys_w_status)
-    for key, value in d.items():
-        print(f"{key}: {value}")
-    _ = input()
+def report():
+    #res = sql_code.fetch(query, from_file=False)
+    #helpers.dump2csv_file(res,
+    #            keys=keys,
+    #            file_name="active.csv")
+    _ = input(query1)
+    res = sql_code.fetch(query1, from_file=False)
+    for line in res:
+        d = line2dict(line, keys_w_status)
+        for key, value in d.items():
+            print(f"{key}: {value}")
+#       _ = input()
 
 
 

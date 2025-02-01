@@ -24,8 +24,6 @@ import gui
 import reports
 import data_entry
 
-#ids2include = [14, 28, ....)
-
 csv_file_name = "Secret/data.csv"
 json_file_name = "Secret/data.json"
 email_file_name = "Secret/emails.json"
@@ -127,10 +125,14 @@ def create_json():
 
 
 def mailing():
-    yn = input(f"Subject set to <{subject}>. Continue? (y/n) ")
+    
+    ids2include = [14, 28, 29 ]
+
+    yn = input(f"Subject set to <{subject}> and\n"+ 
+       f"recipient IDs are {ids2include}. Continue? (y/n) ")
     if yn and yn[0] in "nN":
         return
-    _ = input(query)
+#   _ = input(query)
     res = sql_code.fetch(query, from_file=False)
     for line in res:
 #       print(line)
@@ -140,7 +142,7 @@ def mailing():
             emails.append(e_rec)
         email_address = line[-1]
         name = f"{line[2]} {line[4]}:"
-        if int(line[1]) == 3:
+        if line[1] == "no-email":
             line = [item for item in line]
             line[-1] = ''
         letter_body = body.format(name=name, entry=line[2:])
@@ -159,7 +161,7 @@ def mailing():
 #       if yn and yn[0] in "Nn":
 #           break
         emails.append(e_rec)
-    dump2json_file(emails, email_file, verbose=True)
+    helpers.dump2json_file(emails, email_file_name, verbose=True)
 
 
 def main():

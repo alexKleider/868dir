@@ -62,10 +62,13 @@ def add2people():
 
         query = f""" INSERT INTO person_status
                 (personID, statusID, begin) 
-            VALUES ({personID}, {choice["statusID"]}, "{helpers.datestamp}");"""
+            VALUES ({personID}, {choice["statusID"]},
+            "{helpers.datestamp}");"""
         if gui.yes_no(query, title="Execute?"):
             sql_code.fetch(query, from_file=False,
                            commit=True)
+        if gui.yes_no("Make another entry?", title="Continue?"):
+            add2people()
     
 
 if __name__ == "__main__":

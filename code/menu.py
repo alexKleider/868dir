@@ -22,6 +22,7 @@ import sql_code
 import helpers
 import gui
 import reports
+import data_entry
 
 #ids2include = [14, 28, ....)
 
@@ -111,10 +112,10 @@ def create_csv():
     with open("Secret/data.csv", 'w', newline='') as stream:
         writer = csv.writer(stream)
         writer.writerow(keys)
-        print(keys)
+#       print(keys)
         for line in res[1:]:
             writer.writerow(line)
-            print(line)
+#           print(line)
 
 def create_json():
     res = sql_code.fetch(query, from_file=False)
@@ -132,7 +133,7 @@ def mailing():
     _ = input(query)
     res = sql_code.fetch(query, from_file=False)
     for line in res:
-        print(line)
+#       print(line)
         personID = line[0]
         if ids2include and not (personID in ids2include):
             continue
@@ -143,7 +144,7 @@ def mailing():
             line = [item for item in line]
             line[-1] = ''
         letter_body = body.format(name=name, entry=line[2:])
-        print(letter_body)
+#       print(letter_body)
         e_rec = {     # email format...
             'From': sender,
             'Reply-To': sender,
@@ -163,12 +164,18 @@ def mailing():
 
 def main():
     carte = dict(
+        add_entry= data_entry.add2people,
         mailing= mailing,
         report= reports.report,
         csv= create_csv,
         json= create_json,
         )
-    gui.pick_func(carte)()
+    func = gui.pick_func(carte)
+    if func:
+#       _ = input(f"func: {func.__name__}")
+        func()
+    else:
+        print("Menu aborted!")
 
 if __name__ == "__main__":
     main()

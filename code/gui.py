@@ -157,14 +157,11 @@ def pick_func(carte, font=font):
     win = sg.Window("Main Menu", layout, font=font)
     e, v = win.read()
     win.close()
-    if e == 'CANCEL' or not v or not v["CHOICE"]:
+    if (e in (None, 'CANCEL')) or not v or not v["CHOICE"]:
         print(
             "Cancelled or no choice made; aborting main menu")
         return
-    print(v)
-    key = v['CHOICE'][0]
-    print(key)
-    return carte[key]
+    return carte[v['CHOICE'][0]]
 
 
 ## Testing Functions:

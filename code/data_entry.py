@@ -21,14 +21,18 @@ def insert_into(table_name, mapping):
         VALUES
         ({values})
         ; """
-    _ = input(query)
+#   _ = input(query)
 
 
 def add2people():
     mapping = {key:"" for key in people_keys[2:]}
 #   print(mapping)
-    new_mapping = helpers.shortened_dict(
-            gui.change_mapping(mapping))
+    mapping_ = gui.change_mapping(mapping) 
+#   _ = input(f"change_mapping returns: {mapping_}")
+    if not mapping_:
+        print("Mission aborted!")
+        return
+    new_mapping = helpers.shortened_dict(mapping_)
 #   print(new_mapping)
     new_mapping["entry_date"] = helpers.datestamp
     keys = new_mapping.keys()

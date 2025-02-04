@@ -145,7 +145,7 @@ def pick_func(carte, font=font):
     """
     <carte> is a dict with values that are functions.
     User is presented with a choice of all the keys
-    and returned in the corresponding function.
+    and returned is the corresponding function.
     """
     options = [key for key in carte.keys()]
     layout = [

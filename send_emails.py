@@ -22,9 +22,10 @@ import mimetypes
 import hashlib
 import time
 import random
-from code import helpers
+from src import helpers
 
-json_email_file = "Secret/emails.json"
+today = helpers.datestamp
+json_email_file =  f"Secret/{today}-emails.json"
 
 def getpw(service):
     """

@@ -11,6 +11,9 @@ people_keys = ("id, entry_date, first, mi, last, suffix, phone, " +
 people_keys = people_keys.split(', ')
 
 def insert_into(table_name, mapping):
+    """
+    Not used (yet.)
+    """
     keys = mapping.keys()
     keys = ", ".join(keys)
     values = [f'"{value}"' for value in mapping.values()]

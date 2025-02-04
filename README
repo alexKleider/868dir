@@ -4,12 +4,14 @@
 Code for maintenance of the 868 Directory data base.
 
 The data (Secret/868.db) itself is excluded
-and backed up either in google drive or in an encryped file.
-
-New entries can be made with the command:
-  .code/data_entry.py
+and backed up in google drive along with 
+emails sent (as json files.)
 
 Emailing now works.
 
 24 emails sent out Mon Jan 27 06:07:18 PM PST 2025
+
+All functionality now found in code/menu.py
+and so far there are 29 entrants
+as of Sat Feb  1 06:28:58 PM PST 2025
 

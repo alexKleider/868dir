@@ -2,8 +2,11 @@
 24 emails have been sent
 DONE: begin next mailing with person id #25
 
-Next mailing 14 + 27...  Mindy (14) (doesn't want email published.)
-                        Corrected spelling of Cirincione-Coles (27)
+Next mailing 14 + 27...  (14) (doesn't want email published.)
+                        Corrected spelling of (27)
+Now will get a syntax error if ids2include isn't set properly
+and if it is, it'll be displayed and user must aprove to go on.
+
 
 
 

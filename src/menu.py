@@ -21,14 +21,13 @@ import json
 import sql_code
 import helpers
 import gui
-import reports
 import data_entry
 
-csv_file_name = "Secret/data.csv"
-json_file_name = "Secret/data.json"
-email_file_name = "Secret/emails.json"
-
 today = helpers.datestamp
+
+csv_file_name = f"Secret/{today}.csv"
+json_file_name = f"Secret/{today}.json"
+email_file_name = f"Secret/{today}-emails.json"
 
 query = f"""  /* also found in sql/venkat.sql */
     SELECT P.id, S.status,
@@ -43,12 +42,12 @@ query = f"""  /* also found in sql/venkat.sql */
         AND (PS.end = "" OR PS.end > "{today}")
         ;
         """
-keys = (
-        "P.id, " + 
-        "PS.status, " +
-#       "PS.statusID, " +
-        "P.first, P.mi, P.last, P.suffix, P.phone, P.address, "
-        + "P.town, P.state, P.postal_code, P.country, P.email")
+# Use ''.join(list_of_strings) instead of += for building large strings
+keys = ''.join((
+        "P.id, ",
+        "PS.status, ",
+        "P.first, P.mi, P.last, P.suffix, P.phone, P.address, ",
+        "P.town, P.state, P.postal_code, P.country, P.email"))
 keys = [part.split(".")[1] for part in keys.split(", ")]
 
 mappings = sql_code.dicts_from_query(query, keys)
@@ -107,13 +106,15 @@ def select_status():
 
 def create_csv():
     res = sql_code.fetch(query, from_file=False)
-    with open("Secret/data.csv", 'w', newline='') as stream:
+    with open(csv_file_name, 'w', newline='') as stream:
         writer = csv.writer(stream)
         writer.writerow(keys)
 #       print(keys)
         for line in res[1:]:
             writer.writerow(line)
 #           print(line)
+        print(f"Created '{stream.name}'.")
+        pass
 
 def create_json():
     res = sql_code.fetch(query, from_file=False)
@@ -122,11 +123,13 @@ def create_json():
 #   for mapping in jdata:
 #       print(mapping)
     helpers.dump2json_file(jdata, json_file_name)
+    print(f"Created '{json_file_name}'.")
 
 
 def mailing():
     
-    ids2include = [14, 28, 29 ]
+    ids2include = [30, 31 ]
+#   ids2include = None
 
     yn = input(f"Subject set to <{subject}> and\n"+ 
        f"recipient IDs are {ids2include}. Continue? (y/n) ")
@@ -168,7 +171,6 @@ def main():
     carte = dict(
         add_entry= data_entry.add2people,
         mailing= mailing,
-        report= reports.report,
         csv= create_csv,
         json= create_json,
         )

@@ -11,10 +11,11 @@ If not specified, <outfile> defaults to "emails.txt".
 
 import sys
 import json
-from code import helpers
+from src import helpers
 
-default_in_file = 'Secret/emails.json'
-default_out_file = 'emails.txt'
+today = helpers.datestamp
+default_in_file = f"Secret/{today}-emails.json"
+default_out_file = f'{today}-emails.txt'
 
 if len(sys.argv) > 1:
     outf = sys.argv[1]

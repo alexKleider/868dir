@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# File: code/helpers.py
+# File: src/helpers.py
 
 import csv
 import json

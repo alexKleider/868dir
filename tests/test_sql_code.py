@@ -42,7 +42,11 @@ sys.path.insert(0, os.path.split(sys.path[0])[0])
 import sqlite3
 from src import sql_code
 
-
+exclude = """
+def test_initDB():
+    db, cur = src.initDB(path=":memory:")
+    assert (db, cur) == ("db", "cur")
+"""
 
 @pytest.fixture
 def setup_database():

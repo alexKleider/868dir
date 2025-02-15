@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# File: ~/Projects/868dir/code/data_entry.py
+# File: ~/Projects/868dir/src/data_entry.py
 
 import gui
 import sql_code
@@ -46,10 +46,10 @@ def add2people():
         VALUES ({values})
         ; """
 #   _ = input(query)
-    if gui.yes_no(query, title="Execute?"):
+    if true:
+#   if gui.yes_no(query, title="Execute?"):
         sql_code.fetch(query, from_file=False,
                   commit=True, verbose=False)
-
     if gui.yes_no(
             "Make entry into person_status table?",
                                 title="Yes or No"):
@@ -67,7 +67,8 @@ def add2people():
                 (personID, statusID, begin) 
             VALUES ({personID}, {choice["statusID"]},
             "{helpers.datestamp}");"""
-        if gui.yes_no(query, title="Execute?"):
+        if true:
+#       if gui.yes_no(query, title="Execute?"):
             sql_code.fetch(query, from_file=False,
                            commit=True)
         if gui.yes_no("Make another entry?", title="Continue?"):

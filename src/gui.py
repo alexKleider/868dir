@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
 
-# File: Projects/868dir/code/gui.py
+# File: Projects/868dir/src/gui.py
 
 """
 Collecting what's useful in Git/Sql/Code/textual.py and refining it
 """
 
 import PySimpleGUI as sg
-import helpers
+try:
+    import helpers
+except ImportError:
+    from src import helpers
 import sql_code
 
 font_index = 2  # adjust for readability

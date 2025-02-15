@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# File: code/menu.py
+# File: src/menu.py
 #  was initially called mailing.py
 """
 email = {     # email format...
@@ -128,7 +128,7 @@ def create_json():
 
 def mailing():
     
-    ids2include = [30, 31 ]
+    ids2include = [37, 38, 39, 40,]
 #   ids2include = None
 
     yn = input(f"Subject set to <{subject}> and\n"+ 

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# File: code/sql_code.py
+# File: src/sql_code.py
 
 import csv
 import sqlite3

@@ -46,7 +46,7 @@ def add2people():
         VALUES ({values})
         ; """
 #   _ = input(query)
-    if true:
+    if True:
 #   if gui.yes_no(query, title="Execute?"):
         sql_code.fetch(query, from_file=False,
                   commit=True, verbose=False)
@@ -67,7 +67,7 @@ def add2people():
                 (personID, statusID, begin) 
             VALUES ({personID}, {choice["statusID"]},
             "{helpers.datestamp}");"""
-        if true:
+        if True:
 #       if gui.yes_no(query, title="Execute?"):
             sql_code.fetch(query, from_file=False,
                            commit=True)

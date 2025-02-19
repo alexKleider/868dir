@@ -128,7 +128,7 @@ def create_json():
 
 def mailing():
     
-    ids2include = [39, 40,]
+    ids2include = [37, 40,]
 #   ids2include = None
 
     yn = input(f"Subject set to <{subject}> and\n"+ 

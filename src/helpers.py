@@ -12,9 +12,11 @@ datestamp = today.strftime("%Y-%m-%d")
 ## Utility Functions:
 
 def show_dict(mapping):
+    """ Returns a listing of strings: key/value pairs.  """
+    res = []
     for key, value in mapping.items():
-        print(f"{key}: {value}", end = '; ')
-    print()
+        res.append(f"{key}: {value}")
+    return res
 
 def shortened_dict(mapping):
     """

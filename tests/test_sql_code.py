@@ -55,19 +55,19 @@ def setup_database():
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE people (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            entry_date TEXT DEFAULT "",
-            first TEXT DEFAULT "",
-            mi TEXT DEFAULT "",
-            last TEXT DEFAULT "",
-            suffix TEXT DEFAULT "",
-            phone TEXT DEFAULT "",
-            address TEXT DEFAULT "",
-            town TEXT DEFAULT "",
-            state TEXT DEFAULT "",
-            postal_code TEXT DEFAULT "",
-            country TEXT DEFAULT "",
-            email TEXT DEFAULT ""
+            id INTEGER PRIMARY KEY AUTOINCREMENT, --00
+            entry_date TEXT DEFAULT "",           --01
+            first TEXT DEFAULT "",                --02
+            mi TEXT DEFAULT "",                   --03
+            last TEXT DEFAULT "",                 --04
+            suffix TEXT DEFAULT "",               --05
+            phone TEXT DEFAULT "",                --06
+            address TEXT DEFAULT "",              --07
+            town TEXT DEFAULT "",                 --08
+            state TEXT DEFAULT "",                --09
+            postal_code TEXT DEFAULT "",          --10
+            country TEXT DEFAULT "",              --11
+            email TEXT DEFAULT ""                 --12
         )''')
     sample_data = [
         ("2025-01-05", "Joe", "Shmo", "602/392-4525", "23 Any St",
@@ -95,7 +95,12 @@ def setup_database():
 
 def test_connection(setup_database):
     # Test to make sure that there are 2 items in the database
-
     cursor = setup_database
-    assert len(list(cursor.execute('SELECT * FROM people'))) == 6
+    l = list(cursor.execute('SELECT * FROM people'))
+#   for line in l:
+#       print(line)
+    assert len(l) == 6
+    assert l[5][4] == "Bagins"
+    assert l[0][0] == 1
+    assert l[5][0] == 6
 
